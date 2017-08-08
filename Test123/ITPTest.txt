@@ -1,0 +1,57 @@
+
+
+
+
+======2nd Change==============
+Create function getPhysicianCount_3(@did int) returns int
+AS
+BEGIN
+ DECLARE @pcount int
+	SELECT @pcount = count(physician)
+	from works_in
+	where department = @did 
+
+	return @pcount
+END
+
+-- drop function 
+--DROP FUNCTION getPhysicianCount
+
+--call function 
+DECLARE @result int
+EXEC @result = getPhysicianCount 2
+print @result
+
+select * from appointment
+
+Create function getAppCount_7(@phID int, @year varchar (10)) returns int
+	AS
+	BEGIN
+	DECLARE @apcount int
+		SELECT @apcount  = COUNT(appointmentId)
+		FROM appointment
+		WHERE physician = @phID AND YEAR(startTime) = @year
+	RETURN @apcount
+	END
+
+	--calling
+	DECLARE @result int
+	EXEC @result = getAppCount_1 4, '2015'
+	print @result
+
+
+
+--5
+create procedure getDrugCount_1(@patientID int,@phID int,@total int OUTPUT )
+	AS
+	BEGIN
+
+	SELECT @total = count(drug)
+ 	FROM prescribes1
+	WHERE patient = @patientID and physician = @phID
+	END
+
+DECLARE @results int
+EXEC getDrugCount_1 10000004, 9, @results OUTPUT
+print @results
+
